@@ -1,0 +1,2407 @@
+<!DOCTYPE html>
+<html lang="ru" data-tint="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Exam Runway Plan — Victoria's Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --blush:#F7EDEA;
+  --rose:#D4A0A0;
+  --deep-rose:#9E5E5E;
+  --soft-rose:#E8C5C5;
+  --champagne:#EDD9C0;
+  --gold:#B8914A;
+  --gold-light:#D4AE6A;
+  --gold-glow:rgba(184,145,74,0.25);
+  --dark-gold:#7A5C2A;
+  --ink:#1E1010;
+  --ink-soft:#2A1A1A;
+  --muted:#8A7070;
+  --card-bg:rgba(253,246,240,0.98);
+  --card-border:rgba(212,160,160,0.25);
+  --white:#FFFAF8;
+  --tint-color:transparent;
+
+  --ru-color:#C4786A;
+  --en-color:#5A7EA0;
+  --math-color:#6A8A5A;
+  --review-color:#B8914A;
+
+  --shadow-soft:0 4px 24px rgba(42,26,26,0.06),0 1px 6px rgba(42,26,26,0.04);
+  --shadow-hover:0 16px 60px rgba(184,145,74,0.15),0 4px 20px rgba(42,26,26,0.08);
+  --shadow-card:0 2px 16px rgba(42,26,26,0.05);
+  --radius:0px;
+}
+
+html[data-tint="russian"]{--tint-color:rgba(196,120,106,0.035)}
+html[data-tint="english"]{--tint-color:rgba(90,126,160,0.04)}
+html[data-tint="math"]{--tint-color:rgba(106,138,90,0.04)}
+html[data-tint="mixed"]{--tint-color:rgba(130,110,140,0.035)}
+html[data-tint="review"]{--tint-color:rgba(184,145,74,0.04)}
+
+/* ── RESET & BASE ── */
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  background:var(--blush);
+  position:relative;
+  overflow-x:hidden;
+  transition:background-color 0.7s ease;
+}
+
+/* Page tint overlay */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-color:var(--tint-color);transition:background-color 0.7s ease;
+}
+
+/* Subtle grain texture */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+body>*{position:relative;z-index:1}
+
+/* ── CONFETTI CANVAS ── */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:9999}
+
+/* ── REWARD MODAL ── */
+#reward-modal{
+  display:none;position:fixed;inset:0;z-index:9998;
+  background:rgba(20,10,10,0.88);align-items:center;justify-content:center;
+  backdrop-filter:blur(12px) saturate(1.2);
+}
+#reward-modal.active{display:flex;animation:modalIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes modalIn{from{opacity:0}to{opacity:1}}
+
+.reward-box{
+  background:var(--card-bg);
+  max-width:500px;width:90%;
+  padding:56px 52px;
+  text-align:center;
+  position:relative;
+  border:1px solid rgba(184,145,74,0.3);
+  box-shadow:0 40px 120px rgba(0,0,0,0.3),0 0 60px var(--gold-glow),inset 0 1px 0 rgba(255,255,255,0.8);
+  animation:boxIn 0.5s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes boxIn{from{opacity:0;transform:translateY(30px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.reward-box::before{
+  content:'';position:absolute;inset:-1px;
+  background:linear-gradient(135deg,rgba(184,145,74,0.2),transparent 40%,transparent 60%,rgba(196,120,106,0.15));
+  pointer-events:none;z-index:-1;
+}
+
+.reward-close{
+  position:absolute;top:18px;right:22px;background:none;border:none;
+  font-family:'DM Sans',sans-serif;font-size:18px;color:var(--muted);
+  cursor:pointer;line-height:1;transition:color 0.2s,transform 0.2s;padding:4px;
+}
+.reward-close:hover{color:var(--ink);transform:rotate(90deg)}
+
+.reward-ornament{
+  font-size:11px;letter-spacing:6px;text-transform:uppercase;
+  color:var(--gold);font-family:'DM Sans',sans-serif;font-weight:300;
+  margin-bottom:20px;display:block;
+}
+.reward-star{
+  font-size:36px;margin-bottom:16px;display:block;
+  animation:starPulse 2s ease-in-out infinite;
+}
+@keyframes starPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+
+.reward-title{
+  font-family:'Playfair Display',serif;font-weight:400;font-size:36px;
+  color:var(--ink);line-height:1.1;margin-bottom:14px;
+}
+.reward-title em{font-style:italic;color:var(--deep-rose)}
+
+.reward-divider{
+  width:40px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:20px auto;
+}
+
+.reward-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;
+  color:var(--muted);line-height:1.75;
+}
+.reward-btn{
+  margin-top:32px;display:inline-block;padding:14px 38px;
+  font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:3.5px;
+  text-transform:uppercase;
+  border:1px solid var(--gold);color:var(--dark-gold);
+  background:transparent;cursor:pointer;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;overflow:hidden;
+}
+.reward-btn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s ease;z-index:-1;
+}
+.reward-btn:hover::before{transform:scaleX(1)}
+.reward-btn:hover{color:var(--white);border-color:var(--gold)}
+
+/* ── STICKY BAR ── */
+#sticky-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(18,8,8,0.92);
+  backdrop-filter:blur(20px) saturate(1.5);
+  transform:translateY(-100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 32px;
+  border-bottom:1px solid rgba(184,145,74,0.2);
+}
+#sticky-bar.visible{transform:translateY(0)}
+
+.sticky-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:18px;color:var(--white);letter-spacing:0.5px;
+}
+.sticky-right{display:flex;align-items:center;gap:20px}
+.sticky-progress-mini{
+  width:80px;height:2px;background:rgba(255,255,255,0.12);
+  position:relative;overflow:hidden;
+}
+.sticky-progress-fill{
+  position:absolute;left:0;top:0;height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light));
+  width:0%;transition:width 0.6s ease;
+}
+.sticky-countdown{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:10px;
+  letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;
+}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(170deg,#110808 0%,#1E0F0E 40%,#160C0C 70%,#0E0707 100%);
+  padding:80px 48px 68px;
+  text-align:center;
+  position:relative;overflow:hidden;
+  isolation:isolate;
+}
+
+/* Rich layered background */
+.hero::before{
+  content:'';position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 100% 70% at 50% 100%,rgba(196,120,106,0.14) 0%,transparent 65%),
+    radial-gradient(ellipse 70% 50% at 15% 0%,rgba(184,145,74,0.13) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 60% at 85% 10%,rgba(196,120,106,0.09) 0%,transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 50%,rgba(184,145,74,0.04) 0%,transparent 80%);
+}
+
+/* Diagonal luxury texture */
+.hero::after{
+  content:'';position:absolute;inset:0;z-index:0;
+  background-image:
+    repeating-linear-gradient(-45deg,transparent,transparent 28px,rgba(184,145,74,0.018) 28px,rgba(184,145,74,0.018) 29px),
+    repeating-linear-gradient(45deg,transparent,transparent 28px,rgba(196,120,106,0.012) 28px,rgba(196,120,106,0.012) 29px);
+}
+
+.hero>*{position:relative;z-index:1}
+
+/* Floating particles */
+.hero-particles{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;width:2px;height:2px;
+  background:var(--gold);border-radius:50%;
+  animation:floatUp var(--dur,8s) var(--delay,0s) ease-in-out infinite;
+  opacity:0;
+}
+@keyframes floatUp{
+  0%{opacity:0;transform:translateY(0) scale(0)}
+  10%{opacity:0.6}
+  90%{opacity:0.3}
+  100%{opacity:0;transform:translateY(-120px) translateX(var(--dx,0px)) scale(0.3)}
+}
+
+/* Top edge gold line */
+.hero-top-line{
+  position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
+  background:linear-gradient(90deg,transparent 0%,rgba(184,145,74,0.0) 10%,rgba(184,145,74,0.6) 30%,var(--gold) 50%,rgba(184,145,74,0.6) 70%,rgba(184,145,74,0.0) 90%,transparent 100%);
+}
+
+/* Season tag row */
+.hero-season-row{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  margin-bottom:40px;
+  animation:fadeSlideDown 0.9s 0.1s both;
+}
+.hero-season-line{
+  height:1px;width:60px;
+  background:linear-gradient(90deg,transparent,rgba(184,145,74,0.4));
+}
+.hero-season-line.right{
+  background:linear-gradient(90deg,rgba(184,145,74,0.4),transparent);
+}
+.hero-eyebrow{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:9px;
+  letter-spacing:7px;text-transform:uppercase;color:var(--gold);
+  opacity:0.85;
+}
+@keyframes fadeSlideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Main title */
+.hero-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(52px,10vw,96px);color:var(--white);
+  line-height:0.95;letter-spacing:-1.5px;
+  margin-bottom:0;
+  animation:fadeSlideUp 1s 0.2s both;
+  text-shadow:0 2px 40px rgba(0,0,0,0.4);
+}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-title em{
+  font-style:italic;
+  color:var(--champagne);
+  display:inline-block;
+  background:linear-gradient(135deg,var(--champagne) 0%,var(--gold-light) 50%,var(--champagne) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* Ornament divider */
+.hero-divider{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin:28px auto 26px;
+  animation:fadeIn 1s 0.4s both;
+}
+.hero-divider-line{
+  height:1px;width:80px;
+  background:linear-gradient(90deg,transparent,rgba(184,145,74,0.5));
+}
+.hero-divider-line.right{
+  background:linear-gradient(90deg,rgba(184,145,74,0.5),transparent);
+}
+.hero-divider-diamond{
+  width:6px;height:6px;background:var(--gold);
+  transform:rotate(45deg);flex-shrink:0;
+  box-shadow:0 0 12px rgba(184,145,74,0.6);
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.hero-subtitle{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:9.5px;
+  letter-spacing:5px;text-transform:uppercase;
+  color:rgba(255,250,248,0.45);
+  animation:fadeIn 1s 0.5s both;
+  padding:0 12px;
+  word-break:break-word;
+  line-height:1.8;
+}
+.hero-subtitle em{font-style:normal;color:var(--rose);opacity:0.9}
+
+.hero-intro{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+  font-size:18.5px;color:rgba(255,250,248,0.48);max-width:460px;
+  margin:20px auto 0;line-height:1.8;
+  animation:fadeIn 1s 0.6s both;
+}
+
+/* Countdown redesign */
+.countdown-block{
+  margin-top:42px;
+  display:inline-grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:0;
+  border:1px solid rgba(184,145,74,0.2);
+  background:rgba(10,4,4,0.5);
+  backdrop-filter:blur(10px);
+  animation:fadeSlideUp 1s 0.7s both;
+  position:relative;overflow:hidden;
+  min-width:240px;
+}
+.countdown-block::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(184,145,74,0.08) 0%,transparent 50%,rgba(196,120,106,0.05) 100%);
+  pointer-events:none;
+}
+.countdown-block::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(184,145,74,0.4),transparent);
+}
+
+.countdown-left{
+  padding:22px 28px 22px 32px;
+  text-align:right;
+  border-right:1px solid rgba(184,145,74,0.15);
+}
+.countdown-number{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-size:64px;
+  color:var(--gold);line-height:0.9;
+  text-shadow:0 0 60px rgba(184,145,74,0.4),0 0 20px rgba(184,145,74,0.2);
+  display:block;
+}
+.countdown-unit{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:8px;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(184,145,74,0.5);margin-top:4px;display:block;
+}
+.countdown-right{
+  padding:22px 32px 22px 24px;
+  text-align:left;
+}
+.countdown-label{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:8.5px;
+  letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,250,248,0.35);
+  line-height:1.8;
+}
+.countdown-label strong{
+  display:block;font-weight:500;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;
+  letter-spacing:0.5px;color:rgba(255,250,248,0.6);margin-top:3px;
+}
+.countdown-sep{
+  display:none;
+}
+
+/* ── CONFIDENCE METER ── */
+.meter-wrap{
+  background:linear-gradient(180deg,#150C0C 0%,#1A0E0E 100%);
+  padding:28px 48px 32px;text-align:center;
+  border-bottom:1px solid rgba(184,145,74,0.12);
+  position:relative;overflow:hidden;
+}
+.meter-wrap::before{
+  content:'';position:absolute;
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  width:700px;height:300px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(184,145,74,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.meter-wrap::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(184,145,74,0.2),transparent);
+}
+
+.meter-heading{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:8.5px;
+  letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;
+  position:relative;opacity:0.8;
+}
+
+.meter-body{
+  display:flex;align-items:center;gap:18px;max-width:560px;margin:0 auto;
+}
+.meter-bar-outer{
+  flex:1;height:3px;background:rgba(255,255,255,0.06);
+  position:relative;overflow:visible;
+}
+.meter-bar-outer::before{
+  content:'';position:absolute;inset:-4px;
+  box-shadow:0 0 20px rgba(184,145,74,0.08);
+}
+.meter-bar-inner{
+  height:100%;
+  background:linear-gradient(90deg,var(--rose),var(--gold),var(--gold-light),var(--champagne));
+  width:0%;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);
+  position:relative;
+}
+.meter-bar-inner::after{
+  content:'';position:absolute;right:-1px;top:-4px;width:3px;height:11px;
+  background:var(--gold-light);box-shadow:0 0 10px var(--gold-light),0 0 20px rgba(184,145,74,0.4);
+  opacity:0;transition:opacity 0.3s;
+}
+.meter-bar-inner.active::after{opacity:1}
+
+.meter-pct{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:28px;color:var(--gold);line-height:1;
+  min-width:52px;text-align:right;flex-shrink:0;
+  text-shadow:0 0 30px rgba(184,145,74,0.3);
+}
+.meter-pct-sym{
+  font-size:14px;opacity:0.6;
+}
+
+.meter-stats{
+  margin-top:14px;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:13px;color:rgba(255,250,248,0.28);letter-spacing:0.5px;
+}
+
+/* ── MAIN CONTAINER ── */
+.container{max-width:880px;margin:0 auto;padding:56px 24px 96px}
+
+.week-label{
+  text-align:center;font-family:'DM Sans',sans-serif;font-weight:300;
+  font-size:9px;letter-spacing:6px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:44px;
+  display:flex;align-items:center;gap:16px;
+}
+.week-label::before,.week-label::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,160,160,0.3),transparent);
+}
+
+/* ── DAY CARDS ── */
+.day-card{
+  background:#FEFAF7;
+  border:1px solid rgba(212,160,160,0.2);
+  margin-bottom:28px;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(36px);
+  transition:
+    box-shadow 0.45s ease,
+    transform 0.7s cubic-bezier(0.34,1.15,0.64,1),
+    opacity 0.7s ease;
+  box-shadow:0 2px 20px rgba(42,26,26,0.04),0 1px 4px rgba(42,26,26,0.03);
+}
+.day-card.visible{opacity:1;transform:translateY(0)}
+.day-card:hover{
+  box-shadow:0 20px 70px rgba(184,145,74,0.13),0 4px 24px rgba(42,26,26,0.07);
+  transform:translateY(-5px) !important;
+}
+
+/* Top subject color bar */
+.day-card::before{
+  content:'';position:absolute;left:0;top:0;right:0;height:3px;
+  z-index:2;transition:height 0.3s ease;
+}
+.day-card:hover::before{height:4px}
+.day-card.russian::before{background:linear-gradient(90deg,#C4786A,#D4886A,#C4786A)}
+.day-card.english::before{background:linear-gradient(90deg,#5A7EA0,#8AAEC8,#5A7EA0)}
+.day-card.math::before{background:linear-gradient(90deg,#6A8A5A,#9ABE8A,#6A8A5A)}
+.day-card.mixed::before{background:linear-gradient(90deg,#5A7EA0,#8AAEC8,#9ABE8A,#6A8A5A)}
+.day-card.review::before{background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold))}
+
+/* Subject-tinted side accent */
+.day-card::after{
+  content:'';position:absolute;left:0;top:3px;bottom:0;width:3px;z-index:2;
+  transition:width 0.3s ease;
+}
+.day-card:hover::after{width:4px}
+.day-card.russian::after{background:rgba(196,120,106,0.45)}
+.day-card.english::after{background:rgba(90,126,160,0.45)}
+.day-card.math::after{background:rgba(106,138,90,0.45)}
+.day-card.mixed::after{background:linear-gradient(180deg,rgba(90,126,160,0.45) 50%,rgba(106,138,90,0.45) 50%)}
+.day-card.review::after{background:rgba(184,145,74,0.5)}
+
+/* Completed card glow */
+.day-card.all-done{
+  background:#FEF9F4;
+  border-color:rgba(184,145,74,0.22);
+  box-shadow:0 4px 28px rgba(184,145,74,0.08),0 1px 6px rgba(42,26,26,0.04);
+}
+
+/* ── DAY PROGRESS ── */
+.day-progress-wrap{padding:0}
+.day-progress-outer{height:3px;background:rgba(212,160,160,0.1)}
+.day-progress-inner{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light));
+  transition:width 0.7s cubic-bezier(0.4,0,0.2,1);
+  position:relative;
+}
+.day-progress-inner::after{
+  content:'';position:absolute;right:0;top:0;height:100%;width:12px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4));
+}
+
+/* ── DAY HEADER ── */
+.day-header{
+  display:flex;align-items:center;gap:0;
+  padding:0;
+  border-bottom:1px solid rgba(212,160,160,0.13);
+  flex-wrap:nowrap;
+  position:relative;overflow:hidden;
+}
+
+/* Day number watermark */
+.day-number{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-size:88px;
+  color:rgba(212,160,160,0.13);line-height:1;flex-shrink:0;
+  transition:color 0.4s ease;font-style:italic;
+  padding:18px 0 14px 28px;
+  letter-spacing:-4px;
+  user-select:none;
+}
+.day-card:hover .day-number{color:rgba(212,160,160,0.22)}
+
+.day-info{flex:1;min-width:0;padding:22px 20px 20px 16px}
+.day-name{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:8.5px;
+  letter-spacing:4px;text-transform:uppercase;color:var(--muted);
+  margin-bottom:6px;
+}
+.day-theme{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:23px;color:var(--ink);line-height:1.2;
+}
+.day-theme em{font-style:italic;color:var(--deep-rose)}
+
+.badge-wrap{
+  display:flex;flex-direction:column;gap:5px;
+  flex-shrink:0;align-self:stretch;justify-content:center;
+  padding:18px 24px 18px 0;
+}
+.subject-badge{
+  font-family:'DM Sans',sans-serif;font-weight:500;font-size:8px;
+  letter-spacing:2.5px;text-transform:uppercase;padding:5px 12px;
+  border:1px solid;white-space:nowrap;
+  transition:all 0.25s;cursor:default;
+}
+.badge-ru{color:var(--ru-color);border-color:rgba(196,120,106,0.3);background:rgba(196,120,106,0.06)}
+.badge-en{color:var(--en-color);border-color:rgba(90,126,160,0.3);background:rgba(90,126,160,0.06)}
+.badge-math{color:var(--math-color);border-color:rgba(106,138,90,0.3);background:rgba(106,138,90,0.06)}
+.badge-review{color:var(--dark-gold);border-color:rgba(184,145,74,0.3);background:rgba(184,145,74,0.06)}
+
+/* ── MORNING SPARK ── */
+.morning-spark{
+  padding:16px 32px 15px 55px;
+  border-bottom:1px solid rgba(212,160,160,0.1);
+  display:flex;align-items:flex-start;gap:12px;
+  background:linear-gradient(to right,rgba(237,217,192,0.12),transparent 70%);
+  position:relative;
+}
+.morning-spark::before{
+  content:'';position:absolute;left:28px;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,var(--gold),transparent);
+  opacity:0.35;
+}
+.spark-icon{
+  position:absolute;left:22px;top:50%;transform:translateY(-50%);
+  font-size:10px;color:var(--gold);flex-shrink:0;
+}
+.spark-label{
+  font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:4px;
+}
+.spark-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:15px;color:var(--muted);line-height:1.65;
+}
+
+/* ── TASKS ── */
+.tasks{padding:8px 32px 8px 28px}
+
+/* Task counter */
+.tasks-inner{counter-reset:task-counter}
+
+.task{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 14px 16px 16px;
+  margin-bottom:0;cursor:pointer;
+  border-bottom:1px solid rgba(212,160,160,0.08);
+  transition:background 0.2s;
+  position:relative;
+}
+.task:last-child{border-bottom:none}
+.task:hover{background:rgba(212,160,160,0.035)}
+
+.task-check{
+  width:20px;height:20px;
+  border:1.5px solid rgba(212,160,160,0.45);
+  border-radius:50%;
+  flex-shrink:0;margin-top:2px;
+  position:relative;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  background:var(--white);
+}
+.task input[type="checkbox"]{display:none}
+.task input:checked~.task-check{
+  background:var(--deep-rose);
+  border-color:var(--deep-rose);
+  transform:scale(1.08);
+  box-shadow:0 0 0 4px rgba(158,94,94,0.1);
+}
+.task input:checked~.task-check::after{
+  content:'';position:absolute;
+  left:6px;top:3px;width:5px;height:9px;
+  border:1.5px solid white;border-top:none;border-left:none;
+  transform:rotate(45deg);
+  animation:checkIn 0.2s ease both;
+}
+@keyframes checkIn{from{opacity:0;transform:rotate(30deg) scale(0.4)}to{opacity:1;transform:rotate(45deg) scale(1)}}
+
+.task input:checked~.task-text{opacity:0.38}
+.task input:checked~.task-text .task-title{text-decoration:line-through;text-decoration-color:rgba(158,94,94,0.35)}
+
+.task-text{
+  font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:400;
+  color:var(--ink);line-height:1.55;
+  transition:opacity 0.3s;flex:1;
+}
+.task-title{
+  font-family:'Cormorant Garamond',serif;font-size:17.5px;font-weight:600;
+  color:var(--ink);display:inline;letter-spacing:0.1px;
+}
+.task-time{
+  display:inline-flex;align-items:center;
+  font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:400;
+  color:var(--white);background:var(--gold);
+  letter-spacing:0.8px;margin-left:8px;
+  padding:2px 7px;vertical-align:middle;
+  opacity:0.85;
+}
+.task-desc{
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;
+  color:var(--muted);margin-top:4px;line-height:1.55;
+}
+
+/* ── BEAUTY PAUSE ── */
+.beauty-pause{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 32px 14px 28px;
+  background:linear-gradient(to right,rgba(237,217,192,0.22),rgba(237,217,192,0.08));
+  border-top:1px solid rgba(237,217,192,0.4);
+  border-bottom:1px solid rgba(237,217,192,0.4);
+  cursor:pointer;
+  transition:background 0.25s;
+}
+.beauty-pause:hover{background:linear-gradient(to right,rgba(237,217,192,0.32),rgba(237,217,192,0.14))}
+
+.beauty-check{
+  width:20px;height:20px;
+  border:1.5px solid rgba(184,145,74,0.4);
+  border-radius:50%;
+  flex-shrink:0;
+  position:relative;
+  background:rgba(237,217,192,0.3);
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.beauty-pause input[type="checkbox"]{display:none}
+.beauty-pause input:checked~.beauty-check{
+  background:var(--gold);border-color:var(--gold);
+  box-shadow:0 0 0 4px rgba(184,145,74,0.12);
+}
+.beauty-pause input:checked~.beauty-check::after{
+  content:'';position:absolute;left:6px;top:3px;width:5px;height:9px;
+  border:1.5px solid white;border-top:none;border-left:none;transform:rotate(45deg);
+  animation:checkIn 0.2s ease both;
+}
+.beauty-pause input:checked~.beauty-text{opacity:0.38}
+
+.beauty-icon{font-size:18px;flex-shrink:0}
+
+.beauty-text{flex:1}
+.beauty-label{
+  font-family:'DM Sans',sans-serif;font-size:8.5px;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--dark-gold);font-weight:500;margin-bottom:2px;
+}
+.beauty-desc{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:14px;color:var(--dark-gold);opacity:0.8;line-height:1.5;
+}
+
+/* ── MOOD TRACKER ── */
+.mood-tracker{
+  padding:13px 28px;
+  border-bottom:1px solid rgba(212,160,160,0.1);
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:rgba(253,246,240,0.5);
+}
+.mood-label{
+  font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--muted);flex-shrink:0;
+}
+.mood-options{display:flex;gap:5px;flex-wrap:wrap}
+.mood-btn{
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(212,160,160,0.2);
+  border-radius:100px;
+  padding:5px 12px;cursor:pointer;
+  transition:all 0.22s cubic-bezier(0.34,1.4,0.64,1);
+  font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:300;
+  color:var(--muted);display:flex;align-items:center;gap:5px;
+  letter-spacing:0.2px;
+}
+.mood-btn:hover{
+  border-color:rgba(212,160,160,0.45);
+  background:rgba(255,255,255,0.95);
+  transform:translateY(-1px);
+  box-shadow:0 2px 8px rgba(212,160,160,0.12);
+}
+.mood-btn.selected{
+  border-color:var(--rose);
+  background:linear-gradient(135deg,rgba(212,160,160,0.14),rgba(212,160,160,0.08));
+  color:var(--deep-rose);font-weight:400;
+  box-shadow:0 3px 12px rgba(212,160,160,0.2);
+  transform:translateY(-1px);
+}
+.mood-emoji{font-size:13px;line-height:1}
+
+/* ── PRIDE BLOCK ── */
+.pride-block{
+  padding:18px 32px 20px 28px;
+  display:flex;align-items:flex-start;gap:16px;cursor:pointer;
+  transition:background 0.2s;
+  background:linear-gradient(to right,rgba(158,94,94,0.03),transparent);
+  position:relative;
+}
+.pride-block::before{
+  content:'❝';
+  position:absolute;right:28px;top:14px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;color:rgba(158,94,94,0.07);
+  line-height:1;pointer-events:none;
+}
+.pride-block:hover{background:linear-gradient(to right,rgba(158,94,94,0.055),transparent)}
+
+.pride-check{
+  width:20px;height:20px;border:1.5px solid rgba(158,94,94,0.3);
+  border-radius:50%;flex-shrink:0;margin-top:2px;
+  position:relative;background:transparent;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.pride-block input[type="checkbox"]{display:none}
+.pride-block input:checked~.pride-check{
+  background:var(--deep-rose);border-color:var(--deep-rose);
+  box-shadow:0 0 0 4px rgba(158,94,94,0.1);
+}
+.pride-block input:checked~.pride-check::after{
+  content:'';position:absolute;left:6px;top:3px;width:5px;height:9px;
+  border:1.5px solid white;border-top:none;border-left:none;transform:rotate(45deg);
+  animation:checkIn 0.2s ease both;
+}
+.pride-block input:checked~.pride-text{opacity:0.38}
+
+.pride-label{
+  font-family:'DM Sans',sans-serif;font-size:8.5px;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--deep-rose);font-weight:500;margin-bottom:5px;
+}
+.pride-quote{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15.5px;
+  color:var(--deep-rose);opacity:0.75;line-height:1.6;max-width:520px;
+}
+
+/* ── BACKSTAGE ── */
+.backstage{
+  padding:11px 28px 13px;
+  border-top:1px solid rgba(212,160,160,0.1);
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:rgba(245,232,232,0.2);
+}
+.backstage-label{
+  font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--muted);flex-shrink:0;
+}
+.backstage-links{display:flex;gap:6px;flex-wrap:wrap}
+.backstage-link{
+  font-family:'DM Sans',sans-serif;font-size:10px;font-weight:400;
+  color:var(--dark-gold);
+  text-decoration:none;
+  padding:4px 10px;
+  border:1px solid rgba(184,145,74,0.25);
+  transition:all 0.2s;
+  white-space:nowrap;letter-spacing:0.3px;
+}
+.backstage-link:hover{
+  color:var(--white);
+  background:var(--gold);
+  border-color:var(--gold);
+}
+
+/* ── CLAIM REWARD ── */
+.claim-wrap{padding:24px 32px 28px;text-align:center}
+.claim-btn{
+  font-family:'DM Sans',sans-serif;font-size:9.5px;letter-spacing:4px;
+  text-transform:uppercase;
+  border:1px solid var(--gold);color:var(--dark-gold);
+  background:transparent;padding:16px 44px;cursor:pointer;
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;overflow:hidden;
+}
+.claim-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.35s ease;z-index:0;
+}
+.claim-btn span{position:relative;z-index:1}
+.claim-btn:hover::before{transform:scaleX(1)}
+.claim-btn:hover{color:var(--white);border-color:var(--gold);box-shadow:0 8px 28px var(--gold-glow)}
+.claim-btn.shake{animation:shake 0.45s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.claim-msg{
+  margin-top:12px;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:14px;color:var(--muted);min-height:20px;
+}
+
+/* ── SEPARATOR ── */
+.separator{
+  display:flex;align-items:center;gap:18px;
+  margin:52px 0 36px;
+}
+.sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(212,160,160,0.3),transparent)}
+.sep-diamond{
+  width:7px;height:7px;background:var(--gold);
+  transform:rotate(45deg);flex-shrink:0;opacity:0.5;
+}
+.sep-text{
+  font-family:'DM Sans',sans-serif;font-weight:300;font-size:9px;
+  letter-spacing:5px;text-transform:uppercase;color:var(--muted);
+}
+
+/* ── MANIFESTO ── */
+.manifesto{
+  background:linear-gradient(160deg,#110808 0%,#1A0D0D 40%,#0E0707 100%);
+  padding:80px 48px 88px;text-align:center;margin-top:60px;
+  position:relative;overflow:hidden;isolation:isolate;
+}
+.manifesto::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 60%,rgba(184,145,74,0.07) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 40% at 20% 100%,rgba(196,120,106,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 0%,rgba(196,120,106,0.06) 0%,transparent 60%);
+}
+/* top border gold */
+.manifesto::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 5%,rgba(184,145,74,0.5) 30%,var(--gold) 50%,rgba(184,145,74,0.5) 70%,transparent 95%);
+}
+/* diagonal texture */
+.manifesto-texture{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:repeating-linear-gradient(-45deg,transparent,transparent 28px,rgba(184,145,74,0.012) 28px,rgba(184,145,74,0.012) 29px);
+}
+
+.manifesto-ornament{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  margin-bottom:36px;position:relative;z-index:1;
+}
+.manifesto-ornament-line{
+  height:1px;background:linear-gradient(90deg,transparent,rgba(184,145,74,0.5));
+  width:60px;
+}
+.manifesto-ornament-line.right{
+  background:linear-gradient(90deg,rgba(184,145,74,0.5),transparent);
+}
+.manifesto-ornament-diamond{
+  width:6px;height:6px;background:var(--gold);transform:rotate(45deg);
+  box-shadow:0 0 12px rgba(184,145,74,0.5);
+}
+.manifesto-ornament-dot{
+  width:3px;height:3px;background:rgba(184,145,74,0.4);transform:rotate(45deg);
+}
+
+.manifesto-eyebrow{
+  font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:7px;
+  text-transform:uppercase;color:rgba(184,145,74,0.6);
+  margin-bottom:20px;display:block;position:relative;z-index:1;
+}
+
+.manifesto-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;
+  color:var(--white);margin-bottom:0;letter-spacing:-0.5px;
+  position:relative;z-index:1;line-height:1.1;
+}
+.manifesto-title em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--champagne),var(--gold-light),var(--champagne));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.manifesto-divider{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin:24px auto 28px;position:relative;z-index:1;
+}
+.manifesto-divider-line{width:48px;height:1px;background:linear-gradient(90deg,transparent,rgba(184,145,74,0.4))}
+.manifesto-divider-line.right{background:linear-gradient(90deg,rgba(184,145,74,0.4),transparent)}
+.manifesto-divider-star{font-size:10px;color:var(--gold);opacity:0.7}
+
+.manifesto-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;
+  color:rgba(255,250,248,0.5);line-height:1.9;
+  max-width:460px;margin:0 auto 36px;
+  position:relative;z-index:1;
+}
+.manifesto-sign{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-size:13px;
+  color:rgba(184,145,74,0.45);letter-spacing:4px;text-transform:uppercase;
+  position:relative;z-index:1;display:block;
+}
+/* bottom mini footer */
+.manifesto-footer{
+  margin-top:52px;padding-top:28px;
+  border-top:1px solid rgba(184,145,74,0.1);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+  position:relative;z-index:1;
+  max-width:520px;margin-left:auto;margin-right:auto;
+}
+.manifesto-footer-left{
+  font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:3.5px;
+  text-transform:uppercase;color:rgba(255,250,248,0.2);
+}
+.manifesto-footer-right{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:13px;color:rgba(184,145,74,0.4);
+}
+@media(max-width:768px){
+  .manifesto{padding:56px 28px 64px}
+  .manifesto-title{font-size:34px}
+  .manifesto-footer{flex-direction:column;align-items:center;text-align:center;gap:6px}
+}
+
+/* ── SCROLL TO TOP ── */
+.scroll-top{
+  position:fixed;bottom:32px;right:32px;z-index:90;
+  width:42px;height:42px;
+  background:var(--ink-soft);border:1px solid rgba(184,145,74,0.3);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(10px);
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events:none;
+}
+.scroll-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.scroll-top:hover{background:var(--gold);border-color:var(--gold);box-shadow:0 4px 20px var(--gold-glow)}
+.scroll-top svg{width:16px;height:16px;fill:none;stroke:var(--champagne);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero{padding:60px 24px 50px}
+  .hero-title{letter-spacing:-0.5px}
+  .hero-season-line{width:32px}
+  .countdown-block{min-width:190px}
+  .countdown-left{padding:16px 18px 16px 22px}
+  .countdown-right{padding:16px 22px 16px 16px}
+  .countdown-number{font-size:46px}
+  .meter-wrap{padding:18px 28px 22px}
+  .container{padding:40px 16px 80px}
+  .day-header{padding:20px 20px 16px 26px;gap:12px}
+  .day-number{font-size:40px}
+  .day-theme{font-size:19px}
+  .tasks{padding:18px 20px 18px 26px}
+  .morning-spark,.beauty-pause,.backstage,.mood-tracker,.pride-block{
+    padding-left:26px;padding-right:20px;
+  }
+  .claim-wrap{padding:18px 20px 22px}
+  #sticky-bar{padding:9px 18px}
+  .sticky-right{gap:12px}
+  .sticky-progress-mini{display:none}
+  .backstage{flex-direction:column;align-items:flex-start;gap:8px}
+  .manifesto{padding:48px 28px 56px}
+  .manifesto-title{font-size:28px}
+  .scroll-top{bottom:20px;right:16px}
+  .task{margin-left:-6px;margin-right:-6px;padding:8px 6px}
+}
+
+@media(max-width:400px){
+  .hero{padding:48px 16px 42px}
+  .subject-badge{font-size:8px;padding:4px 7px;letter-spacing:1.5px}
+  .mood-btn{font-size:10px;padding:4px 7px}
+  .day-number{font-size:32px}
+  .hero-season-line{width:20px}
+  .hero-subtitle{font-size:8px;letter-spacing:3px}
+  .countdown-number{font-size:40px}
+  .countdown-left{padding:14px 16px 14px 18px}
+  .countdown-right{padding:14px 18px 14px 14px}
+}
+
+/* ── UTILITY ── */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Tooltip for mood states */
+.day-card.all-done .day-header{
+  background:linear-gradient(90deg,rgba(184,145,74,0.04) 0%,transparent 100%);
+}
+
+/* ── SIDEBAR TOGGLE BUTTON ── */
+#sidebar-toggle{
+  position:fixed;right:0;top:50%;transform:translateY(-50%);
+  z-index:200;
+  background:linear-gradient(180deg,#1E100E 0%,#2A1A1A 100%);
+  border:1px solid rgba(184,145,74,0.35);
+  border-right:none;
+  color:var(--gold);
+  width:26px;height:88px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  writing-mode:vertical-rl;
+  font-family:'DM Sans',sans-serif;font-size:7.5px;letter-spacing:3.5px;text-transform:uppercase;
+  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  padding:0;
+  border-top-left-radius:4px;
+  border-bottom-left-radius:4px;
+}
+#sidebar-toggle::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+#sidebar-toggle:hover{background:#120808;color:var(--gold-light)}
+#sidebar-toggle:hover::before{opacity:1}
+#sidebar-toggle .toggle-arrow{
+  writing-mode:horizontal-tb;font-size:9px;margin-bottom:8px;
+  transition:transform 0.35s;opacity:0.7;
+}
+#sidebar.open ~ #sidebar-toggle .toggle-arrow{transform:rotate(180deg)}
+
+/* ── SIDEBAR PANEL ── */
+#sidebar{
+  position:fixed;right:0;top:0;bottom:0;
+  width:340px;z-index:199;
+  background:#1A0E0E;
+  border-left:1px solid rgba(184,145,74,0.18);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  overflow:hidden;
+}
+#sidebar.open{transform:translateX(0)}
+
+/* Sidebar header */
+.sb-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 22px 0;flex-shrink:0;
+}
+.sb-header-left{display:flex;flex-direction:column;gap:3px}
+.sb-eyebrow{
+  font-family:'DM Sans',sans-serif;font-size:7px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--gold);opacity:0.7;
+}
+.sb-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:20px;color:rgba(255,250,248,0.85);letter-spacing:0.3px;
+  line-height:1;
+}
+.sb-close{
+  background:none;border:1px solid rgba(184,145,74,0.2);
+  color:var(--muted);width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s,transform 0.3s;
+  border-radius:2px;flex-shrink:0;
+}
+.sb-close:hover{color:var(--champagne);border-color:rgba(184,145,74,0.5);transform:rotate(90deg)}
+
+/* Divider under header */
+.sb-divider{
+  margin:16px 22px 0;height:1px;
+  background:linear-gradient(90deg,rgba(184,145,74,0.4),rgba(184,145,74,0.1),transparent);
+  flex-shrink:0;
+}
+
+/* Tab bar */
+.sb-tabs{
+  display:flex;padding:0 14px;
+  border-bottom:1px solid rgba(184,145,74,0.1);
+  flex-shrink:0;margin-top:4px;
+  gap:0;
+}
+.sb-tab{
+  flex:1;padding:10px 4px 9px;
+  font-family:'DM Sans',sans-serif;font-size:6.5px;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,250,248,0.28);background:none;border:none;cursor:pointer;
+  border-bottom:1.5px solid transparent;
+  transition:color 0.2s,border-color 0.2s;
+  position:relative;bottom:-1px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.sb-tab-icon{font-size:13px;line-height:1;opacity:0.6;transition:opacity 0.2s}
+.sb-tab:hover{color:rgba(255,250,248,0.55)}
+.sb-tab:hover .sb-tab-icon{opacity:0.9}
+.sb-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.sb-tab.active .sb-tab-icon{opacity:1}
+
+/* Panels */
+.sb-panels{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.sb-panel{display:none;flex:1;flex-direction:column;overflow:hidden}
+.sb-panel.active{display:flex}
+
+/* ── NOTES ── */
+#sb-notes-area{
+  flex:1;resize:none;
+  background:transparent;border:none;outline:none;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:16px;color:rgba(255,250,248,0.72);
+  line-height:1.9;
+  padding:20px 24px 16px;
+  caret-color:var(--gold);
+}
+#sb-notes-area::placeholder{color:rgba(255,250,248,0.14);font-style:italic;font-size:15px}
+.sb-notes-footer{
+  flex-shrink:0;padding:0 20px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.sb-note-chars{
+  flex:1;font-family:'DM Sans',sans-serif;font-size:9px;
+  letter-spacing:1.5px;color:rgba(255,250,248,0.18);
+}
+.sb-note-save{
+  padding:9px 20px;background:none;
+  border:1px solid rgba(184,145,74,0.35);
+  color:var(--gold);
+  font-family:'DM Sans',sans-serif;font-size:7.5px;letter-spacing:3px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;
+}
+.sb-note-save:hover{background:rgba(184,145,74,0.1);border-color:var(--gold)}
+
+/* ── GOALS ── */
+.sb-goals{flex:1;overflow-y:auto;padding:18px 20px}
+.sb-goals::-webkit-scrollbar{width:2px}
+.sb-goals::-webkit-scrollbar-thumb{background:rgba(184,145,74,0.2);border-radius:2px}
+.goals-add{display:flex;gap:6px;margin-bottom:20px}
+.goals-input{
+  flex:1;background:rgba(255,250,248,0.04);
+  border:none;border-bottom:1px solid rgba(184,145,74,0.2);
+  color:rgba(255,250,248,0.85);font-family:'DM Sans',sans-serif;font-size:13px;
+  padding:8px 6px;outline:none;transition:border-color 0.2s;
+}
+.goals-input::placeholder{color:rgba(255,250,248,0.2)}
+.goals-input:focus{border-bottom-color:rgba(184,145,74,0.6)}
+.goals-add-btn{
+  background:none;border:1px solid rgba(184,145,74,0.3);
+  color:var(--gold);width:32px;flex-shrink:0;
+  font-size:20px;line-height:1;cursor:pointer;transition:all 0.2s;
+}
+.goals-add-btn:hover{background:rgba(184,145,74,0.1);border-color:var(--gold)}
+.goals-list{list-style:none}
+.goal-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,250,248,0.05);
+  transition:opacity 0.2s;
+}
+.goal-item:last-child{border-bottom:none}
+.goal-check-wrap{flex-shrink:0;margin-top:2px;position:relative}
+.goal-check{
+  appearance:none;-webkit-appearance:none;
+  width:16px;height:16px;
+  border:1px solid rgba(184,145,74,0.4);background:transparent;cursor:pointer;
+  position:relative;transition:all 0.25s;
+}
+.goal-check:checked{background:rgba(184,145,74,0.18);border-color:var(--gold)}
+.goal-check:checked::after{
+  content:'✓';position:absolute;top:-3px;left:2px;
+  font-size:12px;color:var(--gold);
+}
+.goal-body{flex:1;min-width:0}
+.goal-text{
+  font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;
+  color:rgba(255,250,248,0.78);line-height:1.45;
+  transition:all 0.25s;word-break:break-word;
+}
+.goal-item.done .goal-text{
+  text-decoration:line-through;color:rgba(255,250,248,0.28);font-style:italic;
+}
+.goal-del{
+  background:none;border:none;color:rgba(255,250,248,0.12);
+  font-size:12px;cursor:pointer;padding:2px;flex-shrink:0;
+  transition:color 0.2s;opacity:0;
+}
+.goal-item:hover .goal-del{opacity:1}
+.goal-del:hover{color:var(--deep-rose);opacity:1}
+.goals-empty{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:14px;color:rgba(255,250,248,0.2);
+  text-align:center;padding:32px 0 16px;
+  line-height:1.7;
+}
+.goals-stats{
+  font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(184,145,74,0.5);text-align:center;
+  padding:10px 0 4px;border-top:1px solid rgba(184,145,74,0.1);
+  margin-top:8px;
+}
+
+/* ── LINKS ── */
+.sb-links{flex:1;overflow-y:auto;padding:18px 20px}
+.sb-links::-webkit-scrollbar{width:2px}
+.sb-links::-webkit-scrollbar-thumb{background:rgba(184,145,74,0.2);border-radius:2px}
+.links-add{
+  background:rgba(255,250,248,0.03);
+  border:1px solid rgba(184,145,74,0.15);
+  padding:14px;margin-bottom:18px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.link-input-row{display:flex;gap:6px}
+.link-input{
+  flex:1;background:transparent;
+  border:none;border-bottom:1px solid rgba(184,145,74,0.2);
+  color:rgba(255,250,248,0.8);font-family:'DM Sans',sans-serif;font-size:12px;
+  padding:5px 6px;outline:none;transition:border-color 0.2s;
+}
+.link-input::placeholder{color:rgba(255,250,248,0.18)}
+.link-input:focus{border-bottom-color:rgba(184,145,74,0.55)}
+.link-save-btn{
+  background:rgba(184,145,74,0.12);
+  border:1px solid rgba(184,145,74,0.35);
+  color:var(--gold);padding:0 14px;
+  font-family:'DM Sans',sans-serif;font-size:7.5px;letter-spacing:2.5px;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;transition:all 0.2s;
+}
+.link-save-btn:hover{background:rgba(184,145,74,0.22);border-color:var(--gold)}
+.links-list{list-style:none}
+.link-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 0;border-bottom:1px solid rgba(255,250,248,0.04);
+  transition:background 0.15s;
+}
+.link-item:last-child{border-bottom:none}
+.link-icon{
+  width:28px;height:28px;flex-shrink:0;
+  background:rgba(184,145,74,0.08);border:1px solid rgba(184,145,74,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--gold);opacity:0.75;
+  border-radius:2px;
+}
+.link-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.link-name{
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  color:rgba(255,250,248,0.75);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.link-anchor{
+  font-family:'DM Sans',sans-serif;font-size:10px;
+  color:rgba(184,145,74,0.5);text-decoration:none;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  display:block;transition:color 0.2s;
+}
+.link-item:hover .link-anchor{color:var(--gold)}
+.link-item-del{
+  background:none;border:none;color:rgba(255,250,248,0.12);
+  font-size:13px;cursor:pointer;flex-shrink:0;padding:0;
+  transition:color 0.2s;opacity:0;
+}
+.link-item:hover .link-item-del{opacity:1}
+.link-item-del:hover{color:var(--deep-rose);opacity:1}
+.links-empty{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:14px;color:rgba(255,250,248,0.2);
+  text-align:center;padding:24px 0;
+}
+
+@media(max-width:600px){
+  #sidebar{width:100vw}
+}
+#sidebar-fab{display:none}
+
+/* ── MEDIA TAB ── */
+.sb-media{flex:1;overflow-y:auto;padding:16px 18px}
+.sb-media::-webkit-scrollbar{width:2px}
+.sb-media::-webkit-scrollbar-thumb{background:rgba(184,145,74,0.2);border-radius:2px}
+
+.media-drop-zone{
+  border:1px dashed rgba(184,145,74,0.3);
+  padding:20px 12px;
+  text-align:center;
+  cursor:pointer;
+  transition:all 0.2s;
+  margin-bottom:16px;
+  background:rgba(184,145,74,0.03);
+  position:relative;
+}
+.media-drop-zone:hover,.media-drop-zone.drag-over{
+  border-color:var(--gold);background:rgba(184,145,74,0.08);
+}
+.media-drop-zone input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.media-drop-icon{font-size:22px;display:block;margin-bottom:8px;opacity:0.6}
+.media-drop-text{
+  font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2.5px;
+  text-transform:uppercase;color:rgba(255,250,248,0.3);
+}
+.media-drop-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:12px;color:rgba(255,250,248,0.18);margin-top:4px;
+}
+
+.media-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
+}
+.media-item{
+  position:relative;
+  background:rgba(255,250,248,0.04);
+  border:1px solid rgba(184,145,74,0.1);
+  overflow:hidden;
+}
+.media-item img{
+  width:100%;aspect-ratio:1;object-fit:cover;
+  display:block;cursor:zoom-in;
+  transition:transform 0.3s;
+}
+.media-item img:hover{transform:scale(1.04)}
+.media-caption{
+  font-family:'DM Sans',sans-serif;font-size:9px;
+  color:rgba(255,250,248,0.35);padding:5px 7px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  letter-spacing:0.5px;
+}
+.media-file-card{
+  padding:12px 10px;display:flex;flex-direction:column;
+  align-items:center;gap:6px;min-height:90px;justify-content:center;
+  cursor:default;
+}
+.media-file-icon{font-size:26px}
+.media-file-name{
+  font-family:'DM Sans',sans-serif;font-size:9px;
+  color:rgba(255,250,248,0.55);text-align:center;
+  word-break:break-all;line-height:1.3;
+}
+.media-file-size{
+  font-family:'DM Sans',sans-serif;font-size:8px;
+  color:rgba(184,145,74,0.45);letter-spacing:1px;
+}
+.media-item-del{
+  position:absolute;top:5px;right:5px;
+  background:rgba(20,10,10,0.75);border:none;
+  color:rgba(255,250,248,0.5);font-size:11px;
+  width:20px;height:20px;cursor:pointer;
+  border-radius:2px;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.2s,color 0.2s;
+  line-height:1;padding:0;
+}
+.media-item:hover .media-item-del{opacity:1}
+.media-item-del:hover{color:var(--deep-rose)}
+
+.media-empty{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:14px;color:rgba(255,250,248,0.18);
+  text-align:center;padding:20px 0 8px;
+  grid-column:1/-1;line-height:1.7;
+}
+
+/* Lightbox */
+#sb-lightbox{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(10,4,4,0.94);
+  align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);cursor:zoom-out;
+}
+#sb-lightbox.open{display:flex}
+#sb-lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;
+  border:1px solid rgba(184,145,74,0.2);
+  box-shadow:0 20px 80px rgba(0,0,0,0.5);}
+#sb-lightbox-close{
+  position:absolute;top:18px;right:22px;
+  background:none;border:1px solid rgba(184,145,74,0.3);
+  color:rgba(255,250,248,0.6);font-size:14px;
+  width:32px;height:32px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:2px;transition:all 0.2s;
+}
+#sb-lightbox-close:hover{color:var(--champagne);border-color:var(--gold)}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- SIDEBAR TOGGLE -->
+<button id="sidebar-toggle" onclick="toggleSidebar()" aria-label="Открыть заметки">
+  <span class="toggle-arrow" id="toggle-arrow">◀</span>Notes
+</button>
+<button id="sidebar-fab" onclick="toggleSidebar()" aria-label="Открыть заметки">✦</button>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" role="complementary" aria-label="Заметки и планер">
+  <div class="sb-header">
+    <div class="sb-header-left">
+      <span class="sb-eyebrow">✦ &nbsp; Season 2026</span>
+      <span class="sb-title">My Notes</span>
+    </div>
+    <button class="sb-close" onclick="toggleSidebar()" aria-label="Закрыть">✕</button>
+  </div>
+  <div class="sb-divider"></div>
+  <div class="sb-tabs">
+    <button class="sb-tab active" data-tab="notes" onclick="sbTab('notes',this)"><span class="sb-tab-icon">✍︎</span>Заметки</button>
+    <button class="sb-tab" data-tab="planner" onclick="sbTab('planner',this)"><span class="sb-tab-icon">◎</span>Планер</button>
+    <button class="sb-tab" data-tab="links" onclick="sbTab('links',this)"><span class="sb-tab-icon">↗</span>Ссылки</button>
+    <button class="sb-tab" data-tab="media" onclick="sbTab('media',this)"><span class="sb-tab-icon">⊞</span>Медиа</button>
+  </div>
+  <div class="sb-panels">
+
+    <!-- NOTES -->
+    <div class="sb-panel active" id="sb-panel-notes">
+      <textarea id="sb-notes-area" placeholder="Пиши здесь всё что угодно — мысли, формулы, цитаты, правила..."></textarea>
+      <div class="sb-notes-footer">
+        <span class="sb-note-chars" id="sb-note-chars">0 символов</span>
+        <button class="sb-note-save" onclick="saveNotes()">✦ &nbsp; Сохранить</button>
+      </div>
+    </div>
+
+    <!-- GOALS -->
+    <div class="sb-panel" id="sb-panel-planner">
+      <div class="sb-goals">
+        <div class="goals-add">
+          <input class="goals-input" id="goals-input" placeholder="Напиши свою цель...">
+          <button class="goals-add-btn" onclick="addGoal()">+</button>
+        </div>
+        <ul class="goals-list" id="goals-list"></ul>
+      </div>
+    </div>
+
+    <!-- LINKS -->
+    <div class="sb-panel" id="sb-panel-links">
+      <div class="sb-links">
+        <div class="links-add">
+          <input class="link-input" id="link-title-inp" placeholder="Название ссылки">
+          <div class="link-input-row">
+            <input class="link-input" id="link-url-inp" placeholder="https://..." type="url">
+            <button class="link-save-btn" onclick="addLink()">Добавить</button>
+          </div>
+        </div>
+        <ul class="links-list" id="links-list"></ul>
+      </div>
+    </div>
+
+    <!-- MEDIA -->
+    <div class="sb-panel" id="sb-panel-media">
+      <div class="sb-media">
+        <div class="media-drop-zone" id="media-drop-zone">
+          <input type="file" id="media-file-inp" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onchange="handleMediaFiles(this.files)">
+          <span class="media-drop-icon">🖼</span>
+          <p class="media-drop-text">Добавить фото или файл</p>
+          <p class="media-drop-sub">Нажми или перетащи сюда</p>
+        </div>
+        <div class="media-grid" id="media-grid"></div>
+      </div>
+    </div>
+
+  </div>
+</aside>
+
+<!-- LIGHTBOX -->
+<div id="sb-lightbox" onclick="closeLightbox()">
+  <button id="sb-lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="sb-lightbox-img" src="" alt="">
+</div>
+
+<!-- REWARD MODAL -->
+<div id="reward-modal" role="dialog" aria-modal="true" aria-labelledby="reward-title">
+  <div class="reward-box">
+    <button class="reward-close" onclick="hideReward()" aria-label="Закрыть">✕</button>
+    <span class="reward-ornament">✦ &nbsp; Season 2026 &nbsp; ✦</span>
+    <span class="reward-star" aria-hidden="true">🌟</span>
+    <h2 class="reward-title" id="reward-title">You're not just<br>a student. <em>You're the<br>main event.</em></h2>
+    <div class="reward-divider"></div>
+    <p class="reward-text">Ты прошла первую неделю до конца — с первого шага до последнего. Это не случайность. Это характер. See you next week, Angel.</p>
+    <button class="reward-btn" onclick="hideReward()"><span>Continue Your Season →</span></button>
+  </div>
+</div>
+
+<!-- STICKY BAR -->
+<div id="sticky-bar" role="banner">
+  <span class="sticky-title">The Exam Runway</span>
+  <div class="sticky-right">
+    <div class="sticky-progress-mini" title="Общий прогресс">
+      <div class="sticky-progress-fill" id="sticky-progress-fill"></div>
+    </div>
+    <span class="sticky-countdown" id="sticky-countdown-text">— дней до шоу</span>
+  </div>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Наверх">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-top-line"></div>
+  <div class="hero-particles" id="hero-particles" aria-hidden="true"></div>
+
+  <div class="hero-season-row">
+    <div class="hero-season-line"></div>
+    <p class="hero-eyebrow">Season 2026 · Belarus · ЦЭ</p>
+    <div class="hero-season-line right"></div>
+  </div>
+
+  <h1 class="hero-title">The Exam<br><em>Runway</em> Plan</h1>
+
+  <div class="hero-divider">
+    <div class="hero-divider-line"></div>
+    <div class="hero-divider-diamond"></div>
+    <div class="hero-divider-line right"></div>
+  </div>
+
+  <p class="hero-subtitle">Victoria's First Week &nbsp;·&nbsp; <em>Первые 7 шагов к подиуму</em></p>
+  <p class="hero-intro">Каждый великий показ начинается за кулисами. Эта неделя — твои репетиции. Уверенно, шаг за шагом.</p>
+
+  <div class="countdown-block">
+    <div class="countdown-left">
+      <span class="countdown-number" id="countdown-num">—</span>
+      <span class="countdown-unit">дней</span>
+    </div>
+    <div class="countdown-sep"></div>
+    <div class="countdown-right">
+      <span class="countdown-label">до<strong>Главного шоу</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- CONFIDENCE METER -->
+<div class="meter-wrap">
+  <p class="meter-heading">✦ &nbsp; Runway Confidence Meter &nbsp; ✦</p>
+  <div class="meter-body">
+    <div class="meter-bar-outer">
+      <div class="meter-bar-inner" id="overall-bar"></div>
+    </div>
+    <div class="meter-pct"><span id="overall-pct">0</span><span class="meter-pct-sym">%</span></div>
+  </div>
+  <p class="meter-stats" id="overall-stats">0 задач выполнено</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="container">
+<p class="week-label">Неделя первая · The Opening Act</p>
+
+<!-- DAY 1 -->
+<div class="day-card russian" data-subject="russian" data-day="1">
+  <div class="day-header">
+    <span class="day-number">01</span>
+    <div class="day-info">
+      <p class="day-name">Понедельник · Opening Look</p>
+      <p class="day-theme">Perfect Pitch: <em>Звучи безупречно с первых слов</em></p>
+    </div>
+    <div class="badge-wrap"><span class="subject-badge badge-ru">Русский</span></div>
+  </div>
+  <div class="day-progress-wrap"><div class="day-progress-outer"><div class="day-progress-inner"></div></div></div>
+  <div class="morning-spark">
+    <span class="spark-icon">✦</span>
+    <div>
+      <p class="spark-label">Morning Spark</p>
+      <p class="spark-text">Каждый великий путь начинается с первого слова. Сегодня — твоё первое слово.</p>
+    </div>
+  </div>
+  <div class="tasks">
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Perfect Pitch — Фонетика &amp; Ударения</span><span class="task-time">· 30 мин</span><p class="task-desc">Звуки, буквы, орфоэпические нормы. Твоё произношение — твой акцент на подиуме.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Signature Look — Орфография: гласные &amp; согласные</span><span class="task-time">· 40 мин</span><p class="task-desc">Правописание безударных гласных, непроизносимых согласных, удвоенных согласных.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Debut Test — 10 вариантов А-части</span><span class="task-time">· 20 мин</span><p class="task-desc">Только орфоэпия и орфография. Первый выход на подиум — смелый и чёткий.</p></div></label>
+  </div>
+  <label class="beauty-pause"><input type="checkbox"><span class="beauty-check"></span><span class="beauty-icon">🌸</span><div class="beauty-text"><p class="beauty-label">Время для бьюти-паузы · 10 мин</p><p class="beauty-desc">Стакан воды, 2 минуты дыхания. Ты начинаешь неделю сильной.</p></div></label>
+  <div class="mood-tracker">
+    <span class="mood-label">Как прошёл день?</span>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="brilliant"><span class="mood-emoji">💅</span> Блестяще</button>
+      <button class="mood-btn" data-mood="good"><span class="mood-emoji">✨</span> Хорошо</button>
+      <button class="mood-btn" data-mood="okay"><span class="mood-emoji">☕</span> Сносно</button>
+      <button class="mood-btn" data-mood="focused"><span class="mood-emoji">🧠</span> В потоке</button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😮‍💨</span> Устала</button>
+    </div>
+  </div>
+  <label class="pride-block"><input type="checkbox"><span class="pride-check"></span><div class="pride-text"><p class="pride-label">Завершение дня · Сиять от гордости</p><p class="pride-quote">"Сегодня я открыла неделю. Первый шаг — самый смелый. Я его сделала."</p></div></label>
+  <div class="backstage">
+    <span class="backstage-label">Backstage Essentials</span>
+    <div class="backstage-links">
+      <a class="backstage-link" href="https://gramota.ru/biblioteka/spravochniki/russkiy-yazyk-na-otlichno/orfografiya" target="_blank" rel="noopener">Орфография Gramota →</a>
+      <a class="backstage-link" href="https://therules.ru" target="_blank" rel="noopener">Правила Русского →</a>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="day-card english" data-subject="english" data-day="2">
+  <div class="day-header">
+    <span class="day-number">02</span>
+    <div class="day-info">
+      <p class="day-name">Вторник · The International Look</p>
+      <p class="day-theme">Tense but <em>Gorgeous:</em> Говори в нужном времени</p>
+    </div>
+    <div class="badge-wrap"><span class="subject-badge badge-en">English</span></div>
+  </div>
+  <div class="day-progress-wrap"><div class="day-progress-outer"><div class="day-progress-inner"></div></div></div>
+  <div class="morning-spark">
+    <span class="spark-icon">✦</span>
+    <div>
+      <p class="spark-label">Morning Spark</p>
+      <p class="spark-text">Языки открывают двери, которые знания не могут открыть в одиночку. Сегодня ты говоришь с миром.</p>
+    </div>
+  </div>
+  <div class="tasks">
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Tense but Gorgeous — Present &amp; Past Tenses</span><span class="task-time">· 40 мин</span><p class="task-desc">Simple, Continuous, Perfect в Active Voice. Маркеры времён — твои сигнатурные детали.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">The Art of the Article — a, an, the &amp; нулевой</span><span class="task-time">· 25 мин</span><p class="task-desc">Детали делают образ. Артикли с географическими названиями и устойчивыми выражениями.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Vocabulary Spotlight — 15 новых слов</span><span class="task-time">· 15 мин</span><p class="task-desc">Фразовые глаголы и коллокации из частотного списка. Записывай с примерами.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">After Party — 1 серия в оригинале</span><span class="task-time">· вечером</span><p class="task-desc">Любимый сериал с английскими субтитрами. Это не отдых — это тренировка на слух.</p></div></label>
+  </div>
+  <label class="beauty-pause"><input type="checkbox"><span class="beauty-check"></span><span class="beauty-icon">🌸</span><div class="beauty-text"><p class="beauty-label">Время для бьюти-паузы · 15 мин</p><p class="beauty-desc">Прогулка или растяжка. Тело в форме — разум острее.</p></div></label>
+  <div class="mood-tracker">
+    <span class="mood-label">Как прошёл день?</span>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="brilliant"><span class="mood-emoji">💅</span> Блестяще</button>
+      <button class="mood-btn" data-mood="good"><span class="mood-emoji">✨</span> Хорошо</button>
+      <button class="mood-btn" data-mood="okay"><span class="mood-emoji">☕</span> Сносно</button>
+      <button class="mood-btn" data-mood="focused"><span class="mood-emoji">🧠</span> В потоке</button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😮‍💨</span> Устала</button>
+    </div>
+  </div>
+  <label class="pride-block"><input type="checkbox"><span class="pride-check"></span><div class="pride-text"><p class="pride-label">Завершение дня · Сиять от гордости</p><p class="pride-quote">"Я говорю на трёх языках. Сегодня — немного лучше, чем вчера."</p></div></label>
+  <div class="backstage">
+    <span class="backstage-label">Backstage Essentials</span>
+    <div class="backstage-links">
+      <a class="backstage-link" href="https://learnenglish.britishcouncil.org/grammar/b1-b2-grammar/present-perfect-or-past-simple-2" target="_blank" rel="noopener">British Council Grammar →</a>
+      <a class="backstage-link" href="https://www.perfect-english-grammar.com/verb-tenses.html" target="_blank" rel="noopener">Tenses Reference →</a>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-card math" data-subject="math" data-day="3">
+  <div class="day-header">
+    <span class="day-number">03</span>
+    <div class="day-info">
+      <p class="day-name">Среда · The Power Look</p>
+      <p class="day-theme">The Golden Ratio: <em>Математика абсолютной красоты</em></p>
+    </div>
+    <div class="badge-wrap"><span class="subject-badge badge-math">Математика</span></div>
+  </div>
+  <div class="day-progress-wrap"><div class="day-progress-outer"><div class="day-progress-inner"></div></div></div>
+  <div class="morning-spark">
+    <span class="spark-icon">✦</span>
+    <div>
+      <p class="spark-label">Morning Spark</p>
+      <p class="spark-text">Красота математики — в её честности. Уравнение либо верно, либо нет. Сегодня ты находишь истину.</p>
+    </div>
+  </div>
+  <div class="tasks">
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">The Golden Ratio — Проценты &amp; Пропорции</span><span class="task-time">· 35 мин</span><p class="task-desc">Нахождение %, числа по %, сложные проценты. Золотое сечение встречается везде.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Power Move — Степени &amp; Корни</span><span class="task-time">· 35 мин</span><p class="task-desc">Свойства степени с целым и рациональным показателем. Сила — в знании правил.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Bombshell Test — 10 задач</span><span class="task-time">· 20 мин</span><p class="task-desc">По одной задаче из каждой темы. Проверь себя — будь честна с собой.</p></div></label>
+  </div>
+  <label class="beauty-pause"><input type="checkbox"><span class="beauty-check"></span><span class="beauty-icon">🌸</span><div class="beauty-text"><p class="beauty-label">Время для бьюти-паузы · 15 мин</p><p class="beauty-desc">Скраб, увлажнение, дыхательные упражнения. Ты заслуживаешь заботы каждый день.</p></div></label>
+  <div class="mood-tracker">
+    <span class="mood-label">Как прошёл день?</span>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="brilliant"><span class="mood-emoji">💅</span> Блестяще</button>
+      <button class="mood-btn" data-mood="good"><span class="mood-emoji">✨</span> Хорошо</button>
+      <button class="mood-btn" data-mood="okay"><span class="mood-emoji">☕</span> Сносно</button>
+      <button class="mood-btn" data-mood="focused"><span class="mood-emoji">🧠</span> В потоке</button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😮‍💨</span> Устала</button>
+    </div>
+  </div>
+  <label class="pride-block"><input type="checkbox"><span class="pride-check"></span><div class="pride-text"><p class="pride-label">Завершение дня · Сиять от гордости</p><p class="pride-quote">"Математика не пугает меня. Я нахожу красоту в числах."</p></div></label>
+  <div class="backstage">
+    <span class="backstage-label">Backstage Essentials</span>
+    <div class="backstage-links">
+      <a class="backstage-link" href="https://mathprofy.ru/procentы" target="_blank" rel="noopener">Проценты — шпаргалка →</a>
+      <a class="backstage-link" href="https://www.wolframalpha.com" target="_blank" rel="noopener">Wolfram Alpha →</a>
+      <a class="backstage-link" href="https://uztest.by" target="_blank" rel="noopener">Тренировочные тесты →</a>
+    </div>
+  </div>
+</div>
+
+<div class="separator">
+  <div class="sep-line"></div>
+  <div class="sep-diamond"></div>
+  <span class="sep-text">Midweek · Набираем скорость</span>
+  <div class="sep-diamond"></div>
+  <div class="sep-line"></div>
+</div>
+
+<!-- DAY 4 -->
+<div class="day-card russian" data-subject="russian" data-day="4">
+  <div class="day-header">
+    <span class="day-number">04</span>
+    <div class="day-info">
+      <p class="day-name">Четверг · The Structure Look</p>
+      <p class="day-theme">Shape Shifter: <em>Морфология — знай свои формы</em></p>
+    </div>
+    <div class="badge-wrap"><span class="subject-badge badge-ru">Русский</span></div>
+  </div>
+  <div class="day-progress-wrap"><div class="day-progress-outer"><div class="day-progress-inner"></div></div></div>
+  <div class="morning-spark">
+    <span class="spark-icon">✦</span>
+    <div>
+      <p class="spark-label">Morning Spark</p>
+      <p class="spark-text">Слова — это твоё оружие и украшение одновременно. Сегодня ты учишься владеть ими мастерски.</p>
+    </div>
+  </div>
+  <div class="tasks">
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Shape Shifter — Морфология: части речи</span><span class="task-time">· 40 мин</span><p class="task-desc">Существительное, прилагательное, числительное, местоимение. Каждая форма — своя роль на подиуме.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Word Couture — Состав слова &amp; Словообразование</span><span class="task-time">· 30 мин</span><p class="task-desc">Корень, приставка, суффикс, окончание. Приставочный, суффиксальный, смешанный способы.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">N vs НН — The Twin Trouble</span><span class="task-time">· 20 мин</span><p class="task-desc">Одна из самых коварных тем — выучи правила и сделай 10 примеров на каждый случай.</p></div></label>
+  </div>
+  <label class="beauty-pause"><input type="checkbox"><span class="beauty-check"></span><span class="beauty-icon">🌸</span><div class="beauty-text"><p class="beauty-label">Время для бьюти-паузы · 15 мин</p><p class="beauty-desc">Горячий чай, любимая книга или просто тишина. Ты в центре своей вселенной.</p></div></label>
+  <div class="mood-tracker">
+    <span class="mood-label">Как прошёл день?</span>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="brilliant"><span class="mood-emoji">💅</span> Блестяще</button>
+      <button class="mood-btn" data-mood="good"><span class="mood-emoji">✨</span> Хорошо</button>
+      <button class="mood-btn" data-mood="okay"><span class="mood-emoji">☕</span> Сносно</button>
+      <button class="mood-btn" data-mood="focused"><span class="mood-emoji">🧠</span> В потоке</button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😮‍💨</span> Устала</button>
+    </div>
+  </div>
+  <label class="pride-block"><input type="checkbox"><span class="pride-check"></span><div class="pride-text"><p class="pride-label">Завершение дня · Сиять от гордости</p><p class="pride-quote">"Я знаю язык — этот язык мой. Я владею им."</p></div></label>
+  <div class="backstage">
+    <span class="backstage-label">Backstage Essentials</span>
+    <div class="backstage-links">
+      <a class="backstage-link" href="https://gramota.ru/biblioteka/spravochniki/russkiy-yazyk-na-otlichno/orfografiya" target="_blank" rel="noopener">Орфография Gramota →</a>
+      <a class="backstage-link" href="https://therules.ru" target="_blank" rel="noopener">Правила Русского →</a>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 5 -->
+<div class="day-card mixed" data-subject="mixed" data-day="5">
+  <div class="day-header">
+    <span class="day-number">05</span>
+    <div class="day-info">
+      <p class="day-name">Пятница · The Double Feature</p>
+      <p class="day-theme">Can &amp; Must: <em>Два предмета — двойная уверенность</em></p>
+    </div>
+    <div class="badge-wrap"><span class="subject-badge badge-en">English</span><span class="subject-badge badge-math">Математика</span></div>
+  </div>
+  <div class="day-progress-wrap"><div class="day-progress-outer"><div class="day-progress-inner"></div></div></div>
+  <div class="morning-spark">
+    <span class="spark-icon">✦</span>
+    <div>
+      <p class="spark-label">Morning Spark</p>
+      <p class="spark-text">Два языка сегодня — английский и математический. Ты говоришь с миром на обоих.</p>
+    </div>
+  </div>
+  <div class="tasks">
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Can &amp; Must — Модальные глаголы</span><span class="task-time">· 35 мин</span><p class="task-desc">can, may, must, should, ought to и их эквиваленты. Говори с уверенностью, которую они дают.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Transform &amp; Shine — Словообразование в English</span><span class="task-time">· 25 мин</span><p class="task-desc">Суффиксы -tion, -ment, -ness; префиксы un-, in-, re-. Одно слово — бесконечные возможности.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Straight to the Top — Линейные &amp; Квадратные уравнения</span><span class="task-time">· 30 мин</span><p class="task-desc">Методы решения, теорема Виета. Прямой путь — самый элегантный.</p></div></label>
+  </div>
+  <label class="beauty-pause"><input type="checkbox"><span class="beauty-check"></span><span class="beauty-icon">🌸</span><div class="beauty-text"><p class="beauty-label">Время для бьюти-паузы · 15 мин</p><p class="beauty-desc">Пятница — повод немного побаловать себя. Ванна с пеной, свеча, расслабление.</p></div></label>
+  <div class="mood-tracker">
+    <span class="mood-label">Как прошёл день?</span>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="brilliant"><span class="mood-emoji">💅</span> Блестяще</button>
+      <button class="mood-btn" data-mood="good"><span class="mood-emoji">✨</span> Хорошо</button>
+      <button class="mood-btn" data-mood="okay"><span class="mood-emoji">☕</span> Сносно</button>
+      <button class="mood-btn" data-mood="focused"><span class="mood-emoji">🧠</span> В потоке</button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😮‍💨</span> Устала</button>
+    </div>
+  </div>
+  <label class="pride-block"><input type="checkbox"><span class="pride-check"></span><div class="pride-text"><p class="pride-label">Завершение дня · Сиять от гордости</p><p class="pride-quote">"Сегодня я справилась с двумя предметами. Я сильнее, чем думала."</p></div></label>
+  <div class="backstage">
+    <span class="backstage-label">Backstage Essentials</span>
+    <div class="backstage-links">
+      <a class="backstage-link" href="https://learnenglish.britishcouncil.org/grammar/b1-b2-grammar/modal-verbs" target="_blank" rel="noopener">Modal Verbs BC →</a>
+      <a class="backstage-link" href="https://mathprofy.ru/kvadratnye-uravneniya" target="_blank" rel="noopener">Квадратные уравнения →</a>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 6 -->
+<div class="day-card math" data-subject="math" data-day="6">
+  <div class="day-header">
+    <span class="day-number">06</span>
+    <div class="day-info">
+      <p class="day-name">Суббота · The Statement Look</p>
+      <p class="day-theme">The Perfect Angles: <em>Покоряем геометрию в полную силу</em></p>
+    </div>
+    <div class="badge-wrap"><span class="subject-badge badge-math">Математика</span></div>
+  </div>
+  <div class="day-progress-wrap"><div class="day-progress-outer"><div class="day-progress-inner"></div></div></div>
+  <div class="morning-spark">
+    <span class="spark-icon">✦</span>
+    <div>
+      <p class="spark-label">Morning Spark</p>
+      <p class="spark-text">Геометрия — это язык Вселенной. Сегодня ты учишься его читать. Это твой самый смелый выход.</p>
+    </div>
+  </div>
+  <div class="tasks">
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">The Perfect Angles — Тригонометрические функции</span><span class="task-time">· 45 мин</span><p class="task-desc">Синусы, косинусы, тангенсы. Радианная мера, основные тождества, формулы приведения.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Geometry Glow — Треугольники &amp; Планиметрия</span><span class="task-time">· 40 мин</span><p class="task-desc">Признаки равенства и подобия, теорема Пифагора, синусов и косинусов. Красота в точности.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Catwalk Test — 15 задач</span><span class="task-time">· 20 мин</span><p class="task-desc">Иди уверенно — каждая решённая задача это шаг по подиуму.</p></div></label>
+  </div>
+  <label class="beauty-pause"><input type="checkbox"><span class="beauty-check"></span><span class="beauty-icon">🌸</span><div class="beauty-text"><p class="beauty-label">Время для бьюти-паузы · 20 мин — суббота!</p><p class="beauty-desc">Расширенный ритуал ухода. Ты отработала полную неделю — это заслуженная роскошь.</p></div></label>
+  <div class="mood-tracker">
+    <span class="mood-label">Как прошёл день?</span>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="brilliant"><span class="mood-emoji">💅</span> Блестяще</button>
+      <button class="mood-btn" data-mood="good"><span class="mood-emoji">✨</span> Хорошо</button>
+      <button class="mood-btn" data-mood="okay"><span class="mood-emoji">☕</span> Сносно</button>
+      <button class="mood-btn" data-mood="focused"><span class="mood-emoji">🧠</span> В потоке</button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😮‍💨</span> Устала</button>
+    </div>
+  </div>
+  <label class="pride-block"><input type="checkbox"><span class="pride-check"></span><div class="pride-text"><p class="pride-label">Завершение дня · Сиять от гордости</p><p class="pride-quote">"Геометрия? Я вижу углы там, где другие видят хаос."</p></div></label>
+  <div class="backstage">
+    <span class="backstage-label">Backstage Essentials</span>
+    <div class="backstage-links">
+      <a class="backstage-link" href="https://mathprofy.ru/trigonometriya" target="_blank" rel="noopener">Тригонометрия →</a>
+      <a class="backstage-link" href="https://mathprofy.ru/planimetriya" target="_blank" rel="noopener">Планиметрия →</a>
+      <a class="backstage-link" href="https://uztest.by" target="_blank" rel="noopener">Тренажёр →</a>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 7 -->
+<div class="day-card review" data-subject="review" data-day="7">
+  <div class="day-header">
+    <span class="day-number">07</span>
+    <div class="day-info">
+      <p class="day-name">Воскресенье · The Grand Finale</p>
+      <p class="day-theme">Best of the Week: <em>Первый показ сезона позади</em></p>
+    </div>
+    <div class="badge-wrap"><span class="subject-badge badge-review">Grand Review</span></div>
+  </div>
+  <div class="day-progress-wrap"><div class="day-progress-outer"><div class="day-progress-inner"></div></div></div>
+  <div class="morning-spark">
+    <span class="spark-icon">✦</span>
+    <div>
+      <p class="spark-label">Morning Spark</p>
+      <p class="spark-text">Ты прошла неделю. Это не финиш — это первый выход на подиум. Сегодня ты закрепляешь победу.</p>
+    </div>
+  </div>
+  <div class="tasks">
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Flash Review — 10 мин × 3 предмета</span><span class="task-time">· 30 мин</span><p class="task-desc">Только ключевые правила из каждого предмета. Не учи новое — закрепляй пройденное.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">The Confidence Walk — Мини-тест</span><span class="task-time">· 30 мин</span><p class="task-desc">По одному блоку А-части из каждого предмета. Замерь свой прогресс — ты удивишься.</p></div></label>
+    <label class="task"><input type="checkbox"><span class="task-check"></span><div class="task-text"><span class="task-title">Plan Week 2 — Наметь следующий шаг</span><span class="task-time">· 10 мин</span><p class="task-desc">Отметь, что далось легко, что требует повторения. Следующая неделя будет ещё сильнее.</p></div></label>
+  </div>
+  <label class="beauty-pause"><input type="checkbox"><span class="beauty-check"></span><span class="beauty-icon">🌸</span><div class="beauty-text"><p class="beauty-label">Время для бьюти-паузы · 30 мин — ты заслужила</p><p class="beauty-desc">Полный уход: маска, ванна, любимый фильм. Воскресенье принадлежит тебе целиком.</p></div></label>
+  <div class="mood-tracker">
+    <span class="mood-label">Как прошла неделя?</span>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="brilliant"><span class="mood-emoji">💅</span> Блестяще</button>
+      <button class="mood-btn" data-mood="good"><span class="mood-emoji">✨</span> Хорошо</button>
+      <button class="mood-btn" data-mood="okay"><span class="mood-emoji">☕</span> Сносно</button>
+      <button class="mood-btn" data-mood="focused"><span class="mood-emoji">🧠</span> В потоке</button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😮‍💨</span> Устала</button>
+    </div>
+  </div>
+  <label class="pride-block"><input type="checkbox"><span class="pride-check"></span><div class="pride-text"><p class="pride-label">Завершение недели · Ты вышла на подиум</p><p class="pride-quote">"Первый показ сезона — позади. Я прошла его до конца. Следующая неделя — мой второй выход."</p></div></label>
+  <div class="backstage">
+    <span class="backstage-label">Backstage Essentials</span>
+    <div class="backstage-links">
+      <a class="backstage-link" href="https://riks.by" target="_blank" rel="noopener">РИКЗ — официальный сайт →</a>
+      <a class="backstage-link" href="https://uztest.by" target="_blank" rel="noopener">Тренажёр ЦЭ →</a>
+    </div>
+  </div>
+  <div class="claim-wrap">
+    <button class="claim-btn" id="claim-btn" onclick="claimReward()"><span>✦ Claim Your Reward ✦</span></button>
+    <p class="claim-msg" id="claim-msg"></p>
+  </div>
+</div>
+
+</main>
+
+<!-- MANIFESTO -->
+<footer class="manifesto">
+  <div class="manifesto-texture"></div>
+  <div class="manifesto-ornament">
+    <div class="manifesto-ornament-line"></div>
+    <div class="manifesto-ornament-dot"></div>
+    <div class="manifesto-ornament-diamond"></div>
+    <div class="manifesto-ornament-dot"></div>
+    <div class="manifesto-ornament-line right"></div>
+  </div>
+  <span class="manifesto-eyebrow">Victoria's Secret · Season 2026</span>
+  <h2 class="manifesto-title">The <em>Angels</em> Rule</h2>
+  <div class="manifesto-divider">
+    <div class="manifesto-divider-line"></div>
+    <span class="manifesto-divider-star">✦</span>
+    <div class="manifesto-divider-line right"></div>
+  </div>
+  <p class="manifesto-text">Каждый Ангел Victoria's Secret тренировался не для того, чтобы быть идеальной — а чтобы быть собой в лучшей форме. ЦЭ — это не про страх. Это про то, кем ты станешь, пройдя этот путь.</p>
+  <span class="manifesto-sign">✦ &nbsp; See you on the runway &nbsp; ✦</span>
+  <div class="manifesto-footer">
+    <span class="manifesto-footer-left">Victoria · Belarus · 2026</span>
+    <span class="manifesto-footer-right">Первая неделя завершена</span>
+  </div>
+</footer>
+
+<script>
+// ── HERO PARTICLES ────────────────────────────────────────────────────────────
+(function(){
+  const container = document.getElementById('hero-particles');
+  for(let i = 0; i < 18; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      left:${5+Math.random()*90}%;
+      bottom:${Math.random()*100}%;
+      --dur:${7+Math.random()*10}s;
+      --delay:${-Math.random()*10}s;
+      --dx:${(Math.random()-0.5)*40}px;
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ── COUNTDOWN ────────────────────────────────────────────────────────────────
+const CT_DATE = new Date('2026-05-25T09:00:00');
+function updateCountdown(){
+  const now = new Date();
+  const diff = Math.ceil((CT_DATE - now) / (1000*60*60*24));
+  const txt = diff > 0 ? diff + '' : '—';
+  document.getElementById('countdown-num').textContent = txt;
+  document.getElementById('sticky-countdown-text').textContent =
+    diff > 0 ? diff + ' дней до ЦЭ' : 'Удачи на экзамене!';
+}
+updateCountdown();
+
+// ── STICKY BAR ───────────────────────────────────────────────────────────────
+const heroEl = document.querySelector('.hero');
+const stickyBar = document.getElementById('sticky-bar');
+const scrollTopBtn = document.getElementById('scroll-top');
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY > heroEl.offsetHeight - 40;
+  stickyBar.classList.toggle('visible', scrolled);
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+}, { passive:true });
+
+// ── LOCALSTORAGE CHECKBOXES ──────────────────────────────────────────────────
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+checkboxes.forEach((cb, i) => {
+  const key = 'runway-cb-' + i;
+  cb.checked = localStorage.getItem(key) === 'true';
+  cb.addEventListener('change', () => {
+    localStorage.setItem(key, cb.checked);
+    updateAllProgress();
+  });
+});
+
+// ── MOOD TRACKER ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.day-card').forEach(card => {
+  const day = card.dataset.day;
+  const btns = card.querySelectorAll('.mood-btn');
+  const saved = localStorage.getItem('runway-mood-' + day);
+  if(saved) btns.forEach(b => { if(b.dataset.mood === saved) b.classList.add('selected'); });
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      localStorage.setItem('runway-mood-' + day, btn.dataset.mood);
+    });
+  });
+});
+
+// ── PROGRESS BARS ────────────────────────────────────────────────────────────
+const progressLabels = [
+  'Разминка завершена','Выходим на подиум','Репетиция в разгаре',
+  'Уверенность растёт','Полфинала позади','Почти на вершине','Ты готова к показу'
+];
+
+function updateAllProgress(){
+  let totalDone = 0, totalAll = 0;
+
+  document.querySelectorAll('.day-card').forEach(card => {
+    const cbs = card.querySelectorAll('input[type="checkbox"]');
+    const done = Array.from(cbs).filter(c => c.checked).length;
+    const all = cbs.length;
+    totalDone += done; totalAll += all;
+
+    const pct = all > 0 ? Math.round((done/all)*100) : 0;
+    const bar = card.querySelector('.day-progress-inner');
+    if(bar) bar.style.width = pct + '%';
+
+    // Mark card as complete
+    card.classList.toggle('all-done', done > 0 && done === all);
+  });
+
+  const overallPct = totalAll > 0 ? Math.round((totalDone/totalAll)*100) : 0;
+
+  // Main bar
+  const mainBar = document.getElementById('overall-bar');
+  mainBar.style.width = overallPct + '%';
+  mainBar.classList.toggle('active', overallPct > 0);
+
+  // Percentage number
+  const pctEl = document.getElementById('overall-pct');
+  if(pctEl) pctEl.textContent = overallPct;
+
+  // Sticky mini bar
+  document.getElementById('sticky-progress-fill').style.width = overallPct + '%';
+
+  const labelIdx = Math.min(Math.floor(overallPct/15), 6);
+  document.getElementById('overall-stats').textContent =
+    totalDone + ' / ' + totalAll + ' задач · ' + progressLabels[labelIdx];
+}
+updateAllProgress();
+
+// ── SCROLL ANIMATIONS ────────────────────────────────────────────────────────
+const cardObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      cardObserver.unobserve(e.target);
+    }
+  });
+}, { threshold:0.06, rootMargin:'0px 0px -30px 0px' });
+
+document.querySelectorAll('.day-card').forEach((c, i) => {
+  c.style.transitionDelay = (i * 0.08) + 's';
+  cardObserver.observe(c);
+});
+
+// ── BACKGROUND TINTS ON HOVER ────────────────────────────────────────────────
+document.querySelectorAll('.day-card').forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    document.documentElement.dataset.tint = card.dataset.subject || '';
+  });
+  card.addEventListener('mouseleave', () => {
+    document.documentElement.dataset.tint = '';
+  });
+});
+
+// ── CONFETTI ──────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let animFrame = null;
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas, { passive:true });
+
+const COLORS = ['#B8914A','#D4A0A0','#EDD9C0','#9E5E5E','#C4A87A','#F5E8E8','#D4AE6A','#C4786A'];
+
+function launchConfetti(){
+  particles = [];
+  for(let i = 0; i < 200; i++){
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * canvas.height * 0.4,
+      size: 3 + Math.random() * 7,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      vx: (Math.random() - 0.5) * 3.5,
+      vy: 1.5 + Math.random() * 4,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 8,
+      alpha: 1,
+      shape: ['star','rect','circle'][Math.floor(Math.random()*3)],
+    });
+  }
+  if(animFrame) cancelAnimationFrame(animFrame);
+  drawConfetti();
+}
+
+function drawConfetti(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let alive = false;
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.rotV;
+    if(p.y > canvas.height * 0.82) p.alpha -= 0.025;
+    if(p.alpha <= 0) return;
+    alive = true;
+    ctx.save();
+    ctx.globalAlpha = p.alpha;
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot * Math.PI / 180);
+    ctx.fillStyle = p.color;
+    if(p.shape === 'star'){
+      drawStar(ctx, 0, 0, p.size/2, p.size, 5);
+    } else if(p.shape === 'circle'){
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size/2, 0, Math.PI*2);
+      ctx.fill();
+    } else {
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.5);
+    }
+    ctx.restore();
+  });
+  if(alive) animFrame = requestAnimationFrame(drawConfetti);
+  else ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawStar(ctx, cx, cy, ir, or, pts){
+  ctx.beginPath();
+  for(let i = 0; i < pts*2; i++){
+    const r = i%2===0 ? or : ir;
+    const a = (i * Math.PI / pts) - Math.PI/2;
+    if(i===0) ctx.moveTo(cx + r*Math.cos(a), cy + r*Math.sin(a));
+    else ctx.lineTo(cx + r*Math.cos(a), cy + r*Math.sin(a));
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+// ── REWARD MODAL ──────────────────────────────────────────────────────────────
+function claimReward(){
+  const day7 = document.querySelector('[data-day="7"]');
+  const cbs = day7.querySelectorAll('.tasks input[type="checkbox"], .pride-block input[type="checkbox"]');
+  const allDone = Array.from(cbs).every(c => c.checked);
+  const btn = document.getElementById('claim-btn');
+  const msg = document.getElementById('claim-msg');
+  if(allDone){
+    launchConfetti();
+    setTimeout(() => {
+      document.getElementById('reward-modal').classList.add('active');
+    }, 700);
+    msg.textContent = '';
+  } else {
+    btn.classList.remove('shake');
+    void btn.offsetWidth;
+    btn.classList.add('shake');
+    const remaining = Array.from(cbs).filter(c => !c.checked).length;
+    msg.textContent = 'Осталось ещё ' + remaining + ' ' +
+      (remaining===1 ? 'задача' : 'задач') + ', Angel 💛';
+  }
+}
+
+function hideReward(){
+  document.getElementById('reward-modal').classList.remove('active');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if(animFrame){ cancelAnimationFrame(animFrame); animFrame = null; }
+}
+
+document.getElementById('reward-modal').addEventListener('click', function(e){
+  if(e.target === this) hideReward();
+});
+
+// ── SIDEBAR ──────────────────────────────────────────────────────────────────
+
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const arrow = document.getElementById('toggle-arrow');
+  const open = sb.classList.toggle('open');
+  if(arrow) arrow.textContent = open ? '▶' : '◀';
+}
+
+function sbTab(name, btn){
+  document.querySelectorAll('.sb-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sb-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sb-panel-' + name).classList.add('active');
+}
+
+// Notes
+const notesEl = document.getElementById('sb-notes-area');
+notesEl.value = localStorage.getItem('sb-notes') || '';
+function updateCharCount(){
+  const n = notesEl.value.length;
+  const el = document.getElementById('sb-note-chars');
+  if(el) el.textContent = n ? n + ' символов' : '';
+}
+updateCharCount();
+function saveNotes(){
+  localStorage.setItem('sb-notes', notesEl.value);
+  const btn = document.querySelector('.sb-note-save');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✓ &nbsp; Сохранено';
+  setTimeout(() => btn.innerHTML = orig, 1400);
+}
+notesEl.addEventListener('input', () => {
+  localStorage.setItem('sb-notes', notesEl.value);
+  updateCharCount();
+});
+
+// Goals
+function getGoals(){ return JSON.parse(localStorage.getItem('sb-goals') || '[]'); }
+function saveGoalsData(arr){ localStorage.setItem('sb-goals', JSON.stringify(arr)); }
+
+function renderGoals(){
+  const list = document.getElementById('goals-list');
+  if(!list) return;
+  const goals = getGoals();
+  list.innerHTML = '';
+  if(!goals.length){
+    list.innerHTML = '<p class="goals-empty">Запиши то, к чему стремишься.<br>Каждая цель — шаг к подиуму.</p>';
+    return;
+  }
+  const done = goals.filter(g => g.done).length;
+  goals.forEach((g, i) => {
+    const li = document.createElement('li');
+    li.className = 'goal-item' + (g.done ? ' done' : '');
+    li.innerHTML = `
+      <div class="goal-check-wrap">
+        <input type="checkbox" class="goal-check" ${g.done ? 'checked' : ''}>
+      </div>
+      <div class="goal-body">
+        <div class="goal-text">${g.text}</div>
+      </div>
+      <button class="goal-del" onclick="delGoal(${i})">✕</button>`;
+    li.querySelector('.goal-check').addEventListener('change', e => {
+      const arr = getGoals();
+      arr[i].done = e.target.checked;
+      saveGoalsData(arr);
+      renderGoals();
+    });
+    list.appendChild(li);
+  });
+  if(goals.length){
+    const stats = document.createElement('div');
+    stats.className = 'goals-stats';
+    stats.textContent = done + ' из ' + goals.length + ' достигнуто';
+    list.appendChild(stats);
+  }
+}
+
+function addGoal(){
+  const inp = document.getElementById('goals-input');
+  const text = inp.value.trim();
+  if(!text) return;
+  const arr = getGoals();
+  arr.push({text, done: false});
+  saveGoalsData(arr);
+  renderGoals();
+  inp.value = '';
+}
+
+function delGoal(i){
+  const arr = getGoals();
+  arr.splice(i, 1);
+  saveGoalsData(arr);
+  renderGoals();
+}
+
+document.getElementById('goals-input').addEventListener('keydown', e => {
+  if(e.key === 'Enter') addGoal();
+});
+
+renderGoals();
+
+// Links
+function loadLinks(){
+  const list = document.getElementById('links-list');
+  const links = JSON.parse(localStorage.getItem('sb-links') || '[]');
+  list.innerHTML = '';
+  if(!links.length){
+    list.innerHTML = '<p class="links-empty">Нет сохранённых ссылок</p>';
+    return;
+  }
+  links.forEach((l, i) => {
+    const domain = (() => { try { return new URL(l.url).hostname.replace('www.',''); } catch(e){ return l.url; } })();
+    const li = document.createElement('li');
+    li.className = 'link-item';
+    li.innerHTML = `
+      <div class="link-icon">↗</div>
+      <div class="link-info">
+        <span class="link-name">${l.title || domain}</span>
+        <a class="link-anchor" href="${l.url}" target="_blank" rel="noopener">${domain}</a>
+      </div>
+      <button class="link-item-del" onclick="delLink(${i})">✕</button>`;
+    list.appendChild(li);
+  });
+}
+
+function addLink(){
+  const url = document.getElementById('link-url-inp').value.trim();
+  const title = document.getElementById('link-title-inp').value.trim();
+  if(!url) return;
+  const links = JSON.parse(localStorage.getItem('sb-links') || '[]');
+  links.push({url, title});
+  localStorage.setItem('sb-links', JSON.stringify(links));
+  document.getElementById('link-url-inp').value = '';
+  document.getElementById('link-title-inp').value = '';
+  loadLinks();
+}
+
+function delLink(i){
+  const links = JSON.parse(localStorage.getItem('sb-links') || '[]');
+  links.splice(i, 1);
+  localStorage.setItem('sb-links', JSON.stringify(links));
+  loadLinks();
+}
+
+document.getElementById('link-url-inp').addEventListener('keydown', e => {
+  if(e.key === 'Enter') addLink();
+});
+
+// ── MEDIA ─────────────────────────────────────────────────────────────────────
+const MEDIA_KEY = 'sb-media-files';
+
+function getMediaFiles(){ return JSON.parse(localStorage.getItem(MEDIA_KEY) || '[]'); }
+function saveMediaFiles(arr){ localStorage.setItem(MEDIA_KEY, JSON.stringify(arr)); }
+
+function fileIcon(type){
+  if(type.includes('pdf')) return '📄';
+  if(type.includes('word') || type.includes('doc')) return '📝';
+  if(type.includes('sheet') || type.includes('excel') || type.includes('xls')) return '📊';
+  if(type.includes('presentation') || type.includes('ppt')) return '📋';
+  return '📎';
+}
+
+function formatSize(bytes){
+  if(bytes < 1024) return bytes + ' B';
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+
+function handleMediaFiles(files){
+  const arr = getMediaFiles();
+  const promises = Array.from(files).map(file => new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      arr.push({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        data: e.target.result
+      });
+      resolve();
+    };
+    reader.readAsDataURL(file);
+  }));
+  Promise.all(promises).then(() => {
+    saveMediaFiles(arr);
+    renderMedia();
+  });
+  document.getElementById('media-file-inp').value = '';
+}
+
+function renderMedia(){
+  const grid = document.getElementById('media-grid');
+  const arr = getMediaFiles();
+  grid.innerHTML = '';
+  if(!arr.length){
+    grid.innerHTML = '<p class="media-empty">Здесь будут твои фото<br>и важные файлы.</p>';
+    return;
+  }
+  arr.forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'media-item';
+    if(f.type.startsWith('image/')){
+      div.innerHTML = `
+        <img src="${f.data}" alt="${f.name}" loading="lazy" onclick="openLightbox('${i}')">
+        <div class="media-caption">${f.name}</div>
+        <button class="media-item-del" onclick="delMedia(${i})">✕</button>`;
+    } else {
+      div.innerHTML = `
+        <div class="media-file-card">
+          <div class="media-file-icon">${fileIcon(f.type)}</div>
+          <div class="media-file-name">${f.name}</div>
+          <div class="media-file-size">${formatSize(f.size)}</div>
+        </div>
+        <button class="media-item-del" onclick="delMedia(${i})">✕</button>`;
+    }
+    grid.appendChild(div);
+  });
+}
+
+function delMedia(i){
+  const arr = getMediaFiles();
+  arr.splice(i, 1);
+  saveMediaFiles(arr);
+  renderMedia();
+}
+
+function openLightbox(i){
+  const f = getMediaFiles()[i];
+  if(!f) return;
+  document.getElementById('sb-lightbox-img').src = f.data;
+  document.getElementById('sb-lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(){
+  document.getElementById('sb-lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Drag and drop
+const dropZone = document.getElementById('media-drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  if(e.dataTransfer.files.length) handleMediaFiles(e.dataTransfer.files);
+});
+
+loadLinks();
+renderGoals();
+renderMedia();
+</script>
+</body>
+</html>
